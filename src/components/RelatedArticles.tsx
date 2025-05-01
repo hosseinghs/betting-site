@@ -45,6 +45,7 @@ const RelatedArticles: React.FC<RelatedArticlesProps> = ({
           <div key={index} className="flex gap-4">
             <div className="relative w-24 h-24 flex-shrink-0">
               <Image
+                fill
                 src={article.imageUrl}
                 alt={article.title}
                 className="object-cover rounded-lg"
