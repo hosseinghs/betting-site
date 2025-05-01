@@ -5,6 +5,7 @@ import LastGames from '@/components/LastGames';
 import OddsComparison from '@/components/OddsComparison';
 import RelatedArticles from '@/components/RelatedArticles';
 import BettingSignals from '@/components/BettingSignals';
+import MatchDetails from '@/components/MatchDetails';
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
             <BettingSignals />
           </div>
         </div>
+        <MatchDetails matchId={215662} />
       </div>
     </main>
   );

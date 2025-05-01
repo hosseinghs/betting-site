@@ -1,19 +1,24 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const API_KEY = process.env.NEXT_PUBLIC_FOOTBALL_API_KEY;
-const BASE_URL = 'https://api-football-v1.p.rapidapi.com/v3';
+const BASE_URL = 'https://v3.football.api-sports.io';
+
+// Maximum number of retries
+const MAX_RETRIES = 3;
+// Base delay for exponential backoff (in milliseconds)
+const BASE_DELAY = 1000;
 
 export const apiClient = axios.create({
   baseURL: BASE_URL,
+  headers: {
+    'x-rapidapi-host': 'v3.football.api-sports.io',
+    'x-rapidapi-key': API_KEY
+  }
 });
 
 // Request interceptor
 apiClient.interceptors.request.use(
   (config) => {
-    // Add API key to headers
-    config.headers['x-rapidapi-host'] = 'api-football-v1.p.rapidapi.com';
-    config.headers['x-rapidapi-key'] = API_KEY;
-
     // You can add additional headers or modify the request here
     return config;
   },
@@ -22,10 +27,42 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Response interceptor
+// Helper function to calculate delay for exponential backoff
+const getRetryDelay = (retryCount: number) => {
+  return Math.min(BASE_DELAY * Math.pow(2, retryCount), 10000); // Max 10 seconds
+};
+
+// Response interceptor with retry logic
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error: AxiosError) => {
+    const config = error.config;
+    if (!config) return Promise.reject(error);
+
+    // Get the current retry count
+    const retryCount = (config as any).__retryCount || 0;
+
+    // Check if we should retry the request
+    if (
+      retryCount < MAX_RETRIES &&
+      (error.response?.status === 429 || error.response?.status === 403)
+    ) {
+      // Increment retry count
+      (config as any).__retryCount = retryCount + 1;
+
+      // Calculate delay for exponential backoff
+      const delay = getRetryDelay(retryCount);
+
+      // Log retry attempt
+      console.log(`Retrying request (${retryCount + 1}/${MAX_RETRIES}) after ${delay}ms`);
+
+      // Wait for the calculated delay
+      await new Promise(resolve => setTimeout(resolve, delay));
+
+      // Retry the request
+      return apiClient(config);
+    }
+
     // Handle different types of errors
     if (error.response) {
       // The request was made and the server responded with a status code

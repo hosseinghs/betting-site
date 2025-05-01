@@ -9,11 +9,10 @@ import {
 
 export const footballApi = {
   // Get match details between two teams
-  getMatch: async (matchId: number, config?: ApiRequestConfig) => {
-    const response = await apiClient.get<ApiResponse<Match>>(`/fixtures?id=${matchId}`, config);
+  getFixture: async (matchId: number, config?: ApiRequestConfig) => {
+    const response = await apiClient.get<ApiResponse<Match>>(`/fixtures?ids=215662-215663-215664-215665-215666-215667`);
     return response.data;
   },
-
   // Get head-to-head matches between two teams
   getHeadToHead: async (team1Id: number, team2Id: number, config?: ApiRequestConfig) => {
     const response = await apiClient.get<ApiResponse<HeadToHeadResponse>>(
