@@ -1,25 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-@import "tailwindcss/preflight";
+@tailwind base;
+@tailwind components;
 @tailwind utilities;
-@import "tailwindcss";
 
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-rgb: 243, 244, 246;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
-  font-family: 'Vazirmatn', sans-serif;
+@layer base {
+  html {
+    font-family: 'Vazirmatn', system-ui, sans-serif;
+  }
+  
+  body {
+    color: rgb(var(--foreground-rgb));
+    background: rgb(var(--background-rgb));
+  }
+}
+
+@layer components {
+  .container {
+    @apply px-4 mx-auto max-w-7xl;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-} 
+}
 
 :root {
   --background: #ffffff;

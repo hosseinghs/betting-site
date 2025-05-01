@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Vazirmatn', 'sans-serif'],
+        sans: ['Vazirmatn', 'system-ui', 'sans-serif'],
       },
     },
   },
