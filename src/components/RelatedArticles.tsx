@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { formatDate } from '@/lib/date-utils';
 
 interface Article {
   title: string;
@@ -43,7 +44,7 @@ const RelatedArticles: React.FC<RelatedArticlesProps> = ({
         {articles.map((article, index) => (
           <div key={index} className="flex gap-4">
             <div className="relative w-24 h-24 flex-shrink-0">
-              <img
+              <Image
                 src={article.imageUrl}
                 alt={article.title}
                 className="object-cover rounded-lg"
@@ -52,7 +53,7 @@ const RelatedArticles: React.FC<RelatedArticlesProps> = ({
             <div className="flex-1">
               <h3 className="text-lg font-semibold mb-2">{article.title}</h3>
               <p className="text-gray-600 text-sm mb-2">{article.summary}</p>
-              <span className="text-gray-500 text-xs">{article.date}</span>
+              <span className="text-gray-500 text-xs">{formatDate(article.date)}</span>
             </div>
           </div>
         ))}

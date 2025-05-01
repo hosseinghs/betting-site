@@ -1,5 +1,7 @@
 'use client';
 
+import { formatDate } from '@/lib/date-utils';
+
 interface Game {
   opponent: string;
   score: string;
@@ -63,7 +65,7 @@ const LastGames: React.FC<LastGamesProps> = ({
               <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                 <div className="flex-1">
                   <div className="font-medium">{game.opponent}</div>
-                  <div className="text-sm text-gray-500">{game.date}</div>
+                  <div className="text-sm text-gray-500">{formatDate(game.date)}</div>
                 </div>
                 <div className="flex items-center gap-4">
                   <span className="font-bold">{game.score}</span>
@@ -84,7 +86,7 @@ const LastGames: React.FC<LastGamesProps> = ({
               <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                 <div className="flex-1">
                   <div className="font-medium">{game.opponent}</div>
-                  <div className="text-sm text-gray-500">{game.date}</div>
+                  <div className="text-sm text-gray-500">{formatDate(game.date)}</div>
                 </div>
                 <div className="flex items-center gap-4">
                   <span className="font-bold">{game.score}</span>
